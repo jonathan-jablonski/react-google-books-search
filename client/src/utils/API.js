@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  // Get books from Google API
+  // Fetch books from Google Books API
   fetchGoogle: function(query) {
     return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=10`);
   },
@@ -9,8 +9,8 @@ export default {
   getBook: function(id) {
     return axios.get("/api/books/" + id);
   },
-  // Deletes the book with the given id
-  deleteBook: function(id) {
+  // Removes the book based on id
+  removeBook: function(id) {
     return axios.delete("/api/books/" + id);
   },
   // Saves a book to the database

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container } from "../components/Grid";
+import { Col, Row, Container, InputGroup } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
+import Results from "../components/Results/Results";
 
 function Search() {
     const [search, setSearch] = useState("Music");
@@ -19,7 +20,7 @@ function Search() {
             .then(res => {
                 console.log("response", res);
                 if (res.data.items.length === 0) {
-                    throw new Error("Try again.");
+                    throw error("Try again.");
                 }
                 setResults(res.data.items);
             })
@@ -31,7 +32,7 @@ function Search() {
         setSearch(event.target.value);
     }
 
-    const handleSave = (index) => {
+    const handleDBSave = (index) => {
         console.log([index]);
         console.log(results[index].volumeInfo);
         API.saveBook({
@@ -45,16 +46,12 @@ function Search() {
             .then(res => console.log("Saved to DB", res))
             .catch(err => console.log("GOT ERROR!", err))
     }
-
   return (
     <Container fluid>
       <Row>
         <Col size="md-12">
           <Jumbotron>
-            <div className="topnav search-container">
-                <input type="text" placeholder="Search Google Books"></input>
-                <button type="submit"></button>
-            </div>
+            <Results />
           </Jumbotron>
         </Col>
       </Row>
