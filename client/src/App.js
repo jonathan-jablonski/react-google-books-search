@@ -12,10 +12,10 @@ function App() {
         <Nav />
         <Switch>
           <Route exact path={["/", "/books"]}>
-            <Books />
+            <NoMatch />
           </Route>
           <Route exact path="/books/:id">
-            <Detail />
+            <NoMatch />
           </Route>
           <Route>
             <NoMatch />
