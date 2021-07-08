@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl';
 import API from "../../utils/API"
 
-const SearchBar = () => {
+const SearchBar = (props) => {
     const [search, setSearch] = useState("Music");
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
+    const searchBar = useRef(null);
 
     console.log(error);
 
@@ -34,7 +35,8 @@ const SearchBar = () => {
 
     const handleClick = (event) => {
         event.preventDefault();
-        API.fetchGoogle(search)
+        console.log(searchBar)
+        API.fetchGoogle(searchBar.current.value)
         .then(res => {
             console.log("response", res);
             if (res.data.items.length === 0) {
@@ -45,16 +47,15 @@ const SearchBar = () => {
         .catch(err => setError(err));
     }
 
-    const handleDBSave = (index) => {
-        console.log([index]);
-        console.log(results[index].volumeInfo);
+    const handleDBSave = (book) => {
+        console.log(book);
         API.saveBook({
-            title: results[index].volumeInfo.title,
-            author: results[index].volumeInfo.authors,
-            genre: results[index].volumeInfo.categories,
-            description: results[index].volumeInfo.description,
-            image: results[index].volumeInfo.imageLinks === undefined ? "https://aimint.org/ap/wp-content/uploads/sites/18/2016/04/image-placeholder-vertical-200x300.jpg" : results[index].volumeInfo.imageLinks.thumbnail,
-            link: results[index].volumeInfo.infoLink
+            title: book.volumeInfo.title,
+            author: book.volumeInfo.authors,
+            genre: book.volumeInfo.categories,
+            description: book.volumeInfo.description,
+            image: book.volumeInfo.imageLinks === undefined ? "https://aimint.org/ap/wp-content/uploads/sites/18/2016/04/image-placeholder-vertical-200x300.jpg" : book.volumeInfo.imageLinks.thumbnail,
+            link: book.volumeInfo.infoLink
         })
             .then(res => console.log("Saved to DB", res))
             .catch(err => console.log("GOT ERROR!", err))
@@ -67,11 +68,21 @@ const SearchBar = () => {
                         Search
                     </Button>
                 <FormControl
-                onSubmit={setSearch.handleInputChange}
+                ref={searchBar}
                 aria-label="Example text with button addon"
                 aria-describedby="basic-addon1"
                 />
             </InputGroup>
+            {results.map(res => {
+                return(
+                    <> 
+                        <div>
+                            <h1>{res.volumeInfo.title}</h1>
+                            <button type="button" onClick={() => handleDBSave(res)}>Save Me</button>
+                        </div>
+                    </>
+                )
+            })}
         </div>
     )
 }
