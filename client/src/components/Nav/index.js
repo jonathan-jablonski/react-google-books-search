@@ -7,6 +7,9 @@ function Nav() {
       <a className="navbar-brand" href="/">
         Google Books Search
       </a>
+      <ul style={{textAlign:"right"}}>
+        <li className="navbar-brand"><a href="/saved/" style={{color: "white"}}>Saved Books</a></li>
+      </ul>
     </nav>
   );
 }

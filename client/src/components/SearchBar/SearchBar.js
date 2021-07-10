@@ -62,10 +62,6 @@ const SearchBar = (props) => {
             .catch(err => console.log("GOT ERROR!", err))
     };
 
-    const buttonStyles = {
-        
-    }
-
     return (
         <div>
             <InputGroup className="mb-3" >
