@@ -3,9 +3,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl';
 import API from "../../utils/API"
+import { Col, Container, Row } from "../Grid";
 
 const SearchBar = (props) => {
-    const [search, setSearch] = useState("Music");
+    const [search, setSearch] = useState("Dogs");
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
     const searchBar = useRef(null);
@@ -59,6 +60,10 @@ const SearchBar = (props) => {
         })
             .then(res => console.log("Saved to DB", res))
             .catch(err => console.log("GOT ERROR!", err))
+    };
+
+    const buttonStyles = {
+        
     }
 
     return (
@@ -76,10 +81,24 @@ const SearchBar = (props) => {
             {results.map(res => {
                 return(
                     <> 
-                        <div>
-                            <h1>{res.volumeInfo.title}</h1>
-                            <button type="button" onClick={() => handleDBSave(res)}>Save Me</button>
+                        <Row>
+                        
+                        <div className="results-container">
+                            <h1 style={{textAlign: "left"}}><a href={res.volumeInfo.infoLink}>{res.volumeInfo.title}</a></h1><br></br>
+                            <h4 style={{textAlign: "left"}}>Genre: {res.volumeInfo.categories}</h4><br></br>
+                            <img src={res.volumeInfo.imageLinks.smallThumbnail} alt="image" className="book-cover-thumbnail"/>
+                            <p style={{textAlign: "left"}}>
+                                <br></br>
+                                <strong>Description</strong> <br></br> 
+                                {res.volumeInfo.description}</p> <br></br>
+                            <h3 style={{textAlign: "left"}}>By: {res.volumeInfo.authors}</h3>
+                            <br></br>
+                            <div className="save-button">
+                                <Button variant="outline-secondary" onClick={() => handleDBSave(res)} style={{alignContent:"right"}}>Save Me</Button>
+                            </div>
                         </div>
+                        <br></br>
+                        </Row>
                     </>
                 )
             })}

@@ -10,9 +10,11 @@ const Search = () => {
     <Container fluid>
       <Row>
         <Col size="md-12">
-          <Jumbotron>
+          <Container>
+            <br></br>
+            <br></br>
             <SearchBar />
-          </Jumbotron>
+          </Container>
         </Col>
       </Row>
     </Container>
